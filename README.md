@@ -27,14 +27,14 @@ The Traversal Tool is a JavaScript library designed for navigating and processin
 2. Clone or download the repository containing the traversal tool.
 3. Install dependencies (if any) by running:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 4. Include the traversal tool in your project:
 
-   ```javascript
-   import { traverse } from './traverse.js';
-   ```
+```javascript
+import { traverse } from './traverse.js';
+```
 
 ## Usage
 
@@ -45,24 +45,24 @@ The `traverse` class (aliased as `x`) is the core interface for setting input da
 Set up the tool by defining the input data and traversal path:
 
 ```javascript
-import { traverse } from './traverse.js';
+import { traverse } from '@AntonThomz/traverse_obj';
 
 // Set input data
 traverse.input = {
-  user: { name: "John", age: 30 }
+  data: { name: { value: "Anton" }}
 };
 
 // Set traversal path
-traverse.run = "user>name";
+traverse.run = "data>...>value";
 
 // Get the result
-console.log(traverse.run.value); // Output: "John"
+console.log(traverse.run.value); // Output: "Anton"
 ```
 
 ### Core Methods and Properties
 
 - `traverse.input`: Sets the input data, accepting either a JavaScript object or a valid JSON string.
-  - Example:
+- Example:
 
     ```javascript
     traverse.input = { data: { value: 42 } }; // Object input
@@ -121,6 +121,8 @@ Options.setOption("flatten", true);
   - Example:
 
     ```javascript
+    import { traverse } from '@AntonThomz/traverse_obj';
+    
     traverse.input = { data: {} };
     traverse.options = { default: "Not found" };
     traverse.run = "data>value";
@@ -130,15 +132,40 @@ Options.setOption("flatten", true);
   - Example:
 
     ```javascript
-    traverse.input = { primary: null, backup: { data: "value" } };
-    traverse.options = { fallback: ["primary", "backup>data"] };
-    traverse.run = "primary";
-    console.log(traverse.run.value); // Output: "value" (from fallback path)
+    import { traverse } from '@AntonThomz/traverse_obj';
+
+    traverse.options = {
+       fallback: ['tes1', 'data>name'],
+       debug: true
+    }
+    traverse.input = { data: { name: "Anton" } };
+    traverse.run = "test fallback";
+    console.log(traverse.run.value); // Result: "Anton"
+    /**
+     * The result of the 'debug' option will be displayed like this
+
+    ========= ✗ FAIL =========
+    Key: "test fallback" / "test fallback"
+    Got: undefined
+    Expected: undefined
+
+    ========= ✗ FAIL =========
+    Key: "tes1" / "tes1"
+    Got: undefined
+    Expected: undefined
+
+    ========= ✓ PASS =========
+    Key: "data>name" / "data>name"
+    Got: "Anton"
+    Expected: "Anton"
+    */
     ```
 - `flatten`: When `true`, flattens nested arrays in the result into a single array.
   - Example:
 
     ```javascript
+    import { traverse } from '@AntonThomz/traverse_obj';
+    
     traverse.input = { list: [[1, 2], [3, 4]] };
     traverse.options = { flatten: true };
     traverse.run = "list";
@@ -148,6 +175,8 @@ Options.setOption("flatten", true);
   - Example:
 
     ```javascript
+    import { traverse } from '@AntonThomz/traverse_obj';
+    
     traverse.input = { items: [1, 1, 2, 2, 3] };
     traverse.options = { unique: true };
     traverse.run = "items";
@@ -157,6 +186,8 @@ Options.setOption("flatten", true);
   - Example:
 
     ```javascript
+    import { traverse } from '@AntonThomz/traverse_obj';
+    
     traverse.input = { numbers: [1, 2, 3, 4, 5] };
     traverse.options = { limit: 3 };
     traverse.run = "numbers";
@@ -167,10 +198,16 @@ Options.setOption("flatten", true);
   - Example:
 
     ```javascript
+    import { traverse } from '@AntonThomz/traverse_obj';
+    
     traverse.options = { debug: true };
     traverse.input = { data: { value: 42 } };
     traverse.run = "data>value";
-    // Debug logs are generated if a logging mechanism is integrated
+    // Response:
+    ========= ✓ PASS =========
+    Key: "data>value" / "data>value"
+    Got: 42
+    Expected: 42
     ```
 
 #### Resetting Options
@@ -187,17 +224,24 @@ The `traverse` class provides static methods (`Find`, `Filter`, `group`) accessi
 
 #### `Find(path)`
 
-Searches for data at the specified path within the input data or result.
+search for metadata and then validate it with other data on the surface.
 
 - Example:
 
   ```javascript
+  import { traverse } from '@AntonThomz/traverse_obj';
+  
   traverse.input = { data: [
      { name: 'Anton', age: 20 },
      { name: 'Tiara', age: 17 }
   ]};
   traverse.run = "data";
   console.log(traverse.run.Find(["name", "age:20"])); // Output: "Anton"
+  /**
+   * `Find(["name", "age:20"]))`
+   * The primary data "name" is the data to be retrieved
+   * and the secondary data "age:20" is the data validation on the surface
+  */
   ```
 
 #### `Filter(fn)`
@@ -207,6 +251,8 @@ Applies a custom function to filter or transform the result. If no function is p
 - Example:
 
   ```javascript
+  import { traverse } from '@AntonThomz/traverse_obj';
+  
   traverse.input = { numbers: 10 };
   traverse.run = "numbers";
   const filtered = traverse.run.Filter((x) => x * '2');
@@ -220,6 +266,8 @@ Selects or groups results based on an index (`n`) or logic. If `n` is a positive
 - Example:
 
   ```javascript
+  import { traverse } from '@AntonThomz/traverse_obj';
+  
   traverse.input = { items: ["apple", "banana", "orange"] };
   traverse.run = "items";
   console.log(traverse.run.group(2)); // Output: "banana"
@@ -227,11 +275,47 @@ Selects or groups results based on an index (`n`) or logic. If `n` is a positive
 
 ### Advanced Usage Examples
 
+#### Jump
+
+The 'jump' function can jump to other data points, for example from data1 to data5.
+The prefixes for the jump function are `...` and `??` and `(jump)`:
+
+```javascript
+import { traverse } from '@AntonThomz/traverse_obj';
+
+traverse.input = {
+   data1: {
+      data2: [
+         {
+            data3: {
+               data4: { data5: "Anton" }
+            }
+         }
+      ] 
+   }
+};
+
+traverse.run = "data1>...>data5";
+console.log(traverse.run.value); // Output: "Anton"
+```
+
+#### and can also use regex to validate path keys
+
+```javascript
+import { traverse } from '@AntonThomz/traverse_obj';
+
+traverse.input = { "data": { "path": { "name": "Anton" } }};
+traverse.run = 'data>/^[a-z]+$/>name';
+console.log(traverse.run.value); // Output: "Anton"
+```
+
 #### Combining Options
 
 Use multiple options to process complex data:
 
 ```javascript
+import { traverse } from '@AntonThomz/traverse_obj';
+
 traverse.input = { list: [[1, 1], [2, 2], [3]] };
 traverse.options = {
   flatten: true,
@@ -248,6 +332,8 @@ console.log(traverse.run.value); // Output: [1, 2]
 Apply `Filter` and `group` for advanced processing:
 
 ```javascript
+import { traverse } from '@AntonThomz/traverse_obj';
+
 traverse.input = { scores: [10, 20, 30, 40] };
 traverse.run = "scores";
 const filtered = traverse.run.Filter(x => x[0] * 2);
