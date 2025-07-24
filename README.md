@@ -28,12 +28,12 @@ The Traversal Tool is a JavaScript library designed for navigating and processin
 3. Install dependencies (if any) by running:
 
 ```bash
-npm install
+npm install @AntonThomz/traverse_obj
 ```
 4. Include the traversal tool in your project:
 
 ```javascript
-import { traverse } from './traverse.js';
+import { traverse } from '@AntonThomz/traverse_obj';
 ```
 
 ## Usage
@@ -203,11 +203,13 @@ Options.setOption("flatten", true);
     traverse.options = { debug: true };
     traverse.input = { data: { value: 42 } };
     traverse.run = "data>value";
-    // Response:
+    traverse.run;
+    /** Response:
     ========= ✓ PASS =========
     Key: "data>value" / "data>value"
     Got: 42
     Expected: 42
+    */
     ```
 
 #### Resetting Options
@@ -255,8 +257,7 @@ Applies a custom function to filter or transform the result. If no function is p
   
   traverse.input = { numbers: 10 };
   traverse.run = "numbers";
-  const filtered = traverse.run.Filter((x) => x * '2');
-  console.log(filtered); // Output: 20
+  console.log(traverse.run.Filter((x) => x * '2')); // Output: 20
   ```
 
 #### `group(n)`
@@ -278,7 +279,7 @@ Selects or groups results based on an index (`n`) or logic. If `n` is a positive
 #### Jump
 
 The 'jump' function can jump to other data points, for example from data1 to data5.
-The prefixes for the jump function are `...` and `??` and `(jump)`:
+The prefixes for the jump function are `...` and `*`:
 
 ```javascript
 import { traverse } from '@AntonThomz/traverse_obj';
@@ -299,7 +300,7 @@ traverse.run = "data1>...>data5";
 console.log(traverse.run.value); // Output: "Anton"
 ```
 
-#### and can also use regex to validate path keys
+and can also use regex to validate path keys
 
 ```javascript
 import { traverse } from '@AntonThomz/traverse_obj';
@@ -309,49 +310,12 @@ traverse.run = 'data>/^[a-z]+$/>name';
 console.log(traverse.run.value); // Output: "Anton"
 ```
 
-#### Combining Options
-
-Use multiple options to process complex data:
-
-```javascript
-import { traverse } from '@AntonThomz/traverse_obj';
-
-traverse.input = { list: [[1, 1], [2, 2], [3]] };
-traverse.options = {
-  flatten: true,
-  unique: true,
-  limit: 2,
-  default: []
-};
-traverse.run = "list";
-console.log(traverse.run.value); // Output: [1, 2]
-```
-
-#### Filtering and Grouping
-
-Apply `Filter` and `group` for advanced processing:
-
-```javascript
-import { traverse } from '@AntonThomz/traverse_obj';
-
-traverse.input = { scores: [10, 20, 30, 40] };
-traverse.run = "scores";
-const filtered = traverse.run.Filter(x => x[0] * 2);
-const selected = traverse.run.group(3);
-console.log(filtered); // Output: 20
-console.log(selected); // Output: 30
-```
-
 ### Error Handling
 
 - **Invalid Input**: Throws `TypeError` if `input` is not a valid object or JSON string (e.g., `traverse.isObject` or JSON parse errors).
 - **Invalid Path**: Returns `null` or the `default` value if no data is found, with fallback paths attempted if specified.
 - **Invalid Options**: Throws `TypeError` for invalid option values (e.g., non-boolean `flatten`, non-positive integer `limit`).
 - **Empty Data**: Throws `TypeError` (`traverse.data_not_found`) if the traversal path is invalid or empty without a `default` or `fallback`.
-
-## Dependencies
-
-- **Utils**: A utility module (`./utils.js`) required for parsing paths and performing deep searches. Ensure it is included in your project.
 
 ## Contributing
 
