@@ -1,5 +1,11 @@
 # Traversal Tool
+<div align="center">
 
+[![NPM Version](https://img.shields.io/npm/v/gp4-fb?color=brightgreen&label=Version&style=for-the-badge)](https://www.npmjs.com/package/gp4-fb "NPM Package")
+[![NPM Downloads](https://img.shields.io/npm/dm/gp4-fb?label=Downloads&style=for-the-badge)](https://www.npmjs.com/package/gp4-fb "Downloads")
+[![Donate](https://img.shields.io/badge/-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](https://github.com/sponsors/AntonThomz "Support Development")
+
+</div>
 ## Overview
 
 The Traversal Tool is a JavaScript library designed for navigating and processing nested data structures using a path-based syntax. Built around the `traverse` (aliased as `x`) class, it enables developers to access, transform, and manipulate data in JSON-like objects or arrays with ease. The tool offers a robust set of configuration options and static methods to handle complex data traversal tasks, including fallback paths, result flattening, unique value filtering, and limiting output size. It is ideal for applications requiring precise data extraction and transformation.
@@ -276,10 +282,9 @@ Selects or groups results based on an index (`n`) or logic. If `n` is a positive
 
 ### Advanced Usage Examples
 
-#### Jump
 
-The 'jump' function can jump to other data points, for example from data1 to data5.
-The prefixes for the jump function are `...` and `*`:
+`The 'jump' function can jump to other data points, for example from data1 to data5.
+The prefixes for the jump function are '...' and '*':`
 
 ```javascript
 import { traverse } from '@AntonThomz/traverse_obj';
@@ -300,7 +305,7 @@ traverse.run = "data1>...>data5";
 console.log(traverse.run.value); // Output: "Anton"
 ```
 
-and can also use regex to validate path keys
+`and can also use regex to validate path keys:`
 
 ```javascript
 import { traverse } from '@AntonThomz/traverse_obj';
