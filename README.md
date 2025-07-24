@@ -6,6 +6,7 @@
 [![Donate](https://img.shields.io/badge/-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](https://github.com/sponsors/AntonThomz "Support Development")
 
 </div>
+
 ## Overview
 
 The Traversal Tool is a JavaScript library designed for navigating and processing nested data structures using a path-based syntax. Built around the `traverse` (aliased as `x`) class, it enables developers to access, transform, and manipulate data in JSON-like objects or arrays with ease. The tool offers a robust set of configuration options and static methods to handle complex data traversal tasks, including fallback paths, result flattening, unique value filtering, and limiting output size. It is ideal for applications requiring precise data extraction and transformation.
