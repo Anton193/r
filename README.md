@@ -1,4 +1,4 @@
-# Traversal obj
+# traverse obj
 <div align="center">
 
 [![NPM Version](https://img.shields.io/npm/v/@antonthomzz/traverse_obj?color=brightgreen&label=Version&style=for-the-badge)](https://www.npmjs.com/package/@antonthomzz/traverse_obj "NPM Package")
@@ -6,10 +6,6 @@
 [![Donate](https://img.shields.io/badge/-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](https://github.com/sponsors/AntonThomz "Support Development")
 
 </div>
-
-## Overview
-
-The Traversal Tool is a JavaScript library designed for navigating and processing nested data structures using a path-based syntax. Built around the `traverse` (aliased as `x`) class, it enables developers to access, transform, and manipulate data in JSON-like objects or arrays with ease. The tool offers a robust set of configuration options and static methods to handle complex data traversal tasks, including fallback paths, result flattening, unique value filtering, and limiting output size. It is ideal for applications requiring precise data extraction and transformation.
 
 ## Features
 
@@ -42,10 +38,6 @@ npm install @antonthomzz/traverse_obj
 import { traverse_obj } from '@antonthomzz/traverse_obj';
 ```
 
-## Usage
-
-The `traverse` class (aliased as `x`) is the core interface for setting input data, configuring options, defining traversal paths, and retrieving results. Below are detailed explanations of how to use its configuration options and static methods.
-
 ### Basic Setup
 
 Set up the tool by defining the input data and traversal path:
@@ -56,10 +48,10 @@ import { traverse_obj } from '@antonthomzz/traverse_obj';
 // input
 const input = {"data":{"name":{"value":"Anton"}}};
 
-const result = input.traverse_obj("data>...>value");
+const value = input.traverse_obj(".value");
 
 // Get the result
-console.log(result); // Output: "Anton"
+console.log(value); // Output: "Anton"
 ```
 
 #### Available Options
@@ -77,7 +69,7 @@ console.log(result); // Output: "Anton"
   - Example:
 
     ```javascript
-    const input = { data: { name: "Anton" } };
+    const input = {"data":{"name":"Anton"}};
     
     const value = input.traverse_obj('anton', {
        fallback: ['tes1', 'data>name'],
@@ -178,7 +170,6 @@ console.log(result); // Output: "Anton"
   console.log(value); // Output: "Follow github antonthomzz (https://github.com/AntonThomz)"
   ```
 
-
 ### Error Handling
 
 - **Invalid Input**: Throws `TypeError` if `input` is not a valid object or JSON string (e.g., `traverse.isObject` or JSON parse errors).
@@ -186,10 +177,6 @@ console.log(result); // Output: "Anton"
 - **Invalid Options**: Throws `TypeError` for invalid option values (e.g., non-boolean `flatten`, non-positive integer `limit`).
 - **Empty Data**: Throws `TypeError` (`traverse.data_not_found`) if the traversal path is invalid or empty without a `default` or `fallback`.
 
-## Contributing
-
-Contributions are welcome! Please submit issues or pull requests to the repository. Ensure new features are thoroughly tested and maintain compatibility with existing functionality.
-
-## License
+## License (MIT)
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
