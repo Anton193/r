@@ -117,13 +117,7 @@ console.log(value); // Output: "Anton"
     const input = {"data":{"value":42}};
     input.traverse_obj('data>value', {
        debug: true
-    });
-    /** Response:
-    ========= ✓ PASS =========
-    Key: "data>value" / "data>value"
-    Got: 42
-    Expected: 42
-    */
+    }); // Output: [DEBUG]: Key: "data>value" Got: 42
     ```
 - `find`: search for metadata and then validate it with other data on the surface.
   - Example:
@@ -136,7 +130,7 @@ console.log(value); // Output: "Anton"
     const value = input.traverse_obj("data", {
        find: ["name", "age:20"]
     });
-    console.log(value); // Result: Anton
+    console.log(value); // Output: Anton
     ```
 - `filter`: Applies a custom function to filter or transform the result. If no function is provided, returns the original result.
   - Example:
@@ -146,7 +140,7 @@ console.log(value); // Output: "Anton"
     const value = input.traverse_obj("num", {
        filter: p => p * 10
     });
-    console.log(value); // Result: 100
+    console.log(value); // Output: 100
     ```
 - `group`: Selects or groups results based on an index (`n`) or logic. If `n` is a positive number, selects the element at index `n-1`. If `n` is 0 or omitted, processes the entire result.
   - Example:
@@ -156,7 +150,7 @@ console.log(value); // Output: "Anton"
     const value = input.traverse_obj("items", {
        group: 2
     });
-    console.log(value); // Result: banana
+    console.log(value); // Output: banana
     ```
 
 ### Advanced Usage Examples
