@@ -161,7 +161,7 @@ console.log(result); // Output: "Anton"
 
     ```javascript
     const input = {"items":["apple","banana","orange"]};
-    const value = input.traverse_obj("num", {
+    const value = input.traverse_obj("items", {
        group: 2
     });
     console.log(value); // Result: banana
@@ -169,26 +169,15 @@ console.log(result); // Output: "Anton"
 
 ### Advanced Usage Examples
 
+- `search_regex`: search data based on `RegExp`
+  ```javascript
+  import { search_regex } from '@antonthomzz/traverse_obj';
+  const input = `<title>Follow github antonthomzz (https://github.com/AntonThomz)<title>`;
+  
+  const value = await search_regex("<title>(.*?)<title>", input);
+  console.log(value); // Output: "Follow github antonthomzz (https://github.com/AntonThomz)"
+  ```
 
-The 'jump' function can jump to other data points, for example from data1 to data5.
-The prefixes for the jump function are '...' and '*':
-
-```javascript
-const input = {
-   "data1": {
-      "data2": [
-         {
-            "data3": {
-               "data4": { "data5": "Anton" }
-            }
-         }
-      ] 
-   }
-};
-
-const value = input.traverse_obj(".data5"); // or "data1>...>data5"
-console.log(value); // Output: "Anton"
-```
 
 ### Error Handling
 
